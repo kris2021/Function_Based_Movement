@@ -9,67 +9,57 @@ public class Enemy : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		moveDirection = 1;
-		StartCoroutine(Move(moveDirection));
+		//StartCoroutine(Move(moveDirection));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-
+		moveDirection = Random.Range (1, 5);
+		Move (moveDirection);
 		//moveDirection = 1;
 
 
 	}
 
-	IEnumerator MoveVertical(int dir)
+	void MoveVertical(int dir)
 	{
 		if (dir == 1)
 		{
 			transform.Translate (0, Time.deltaTime * moveSpeed, 0);
-			yield return new WaitForSeconds (3);
+
 		} else
 		{
 			transform.Translate(0, Time.deltaTime * -moveSpeed, 0);
-			yield return  new WaitForSeconds (3);
+
 		}
 	}
 
-	IEnumerator MoveHorizontal(int dir)
+	void MoveHorizontal(int dir)
 	{
 		if (dir == 3)
 		{
 			transform.Translate (Time.deltaTime * moveSpeed, 0, 0);
-			yield return new WaitForSeconds (3);
 		} else
 		{
 			transform.Translate (Time.deltaTime * -moveSpeed, 0, 0);
-			yield return new WaitForSeconds (3);
 		}
 	}
 
-	IEnumerator Move(int dir)
+	void Move(int dir)
 	{
-		
-		while (true)
-		{
-			moveDirection = Random.Range (1, 4);
-
-
-
 			if (moveDirection <= 2)
 			{
-			
-				StartCoroutine(MoveVertical (moveDirection));
+
+				MoveVertical (moveDirection);
 
 
 			} else
 			{
 			
-				StartCoroutine(MoveHorizontal (moveDirection));
+				MoveHorizontal (moveDirection);
 
 			}
-		}
-
+		//yield return new WaitForSeconds (3);
 			
 	}
 }
