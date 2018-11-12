@@ -4,65 +4,73 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-	float moveSpeed = 3f;
+	float moveSpeed;
 	public int moveDirection;
+	int counter = 0;
 	// Use this for initialization
 	void Start () {
 		moveDirection = 1;
+		moveSpeed = 1f;
 		//StartCoroutine(Move(moveDirection));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		moveDirection = Random.Range (1, 5);
-		StartCoroutine(Move (moveDirection));
+		counter++;
+
+		if (counter % 50 == 0)
+		{
+			moveDirection = Random.Range (1, 5);
+
+		}
+		Move (moveDirection);
 		//moveDirection = 1;
 
 
 	}
 
-	IEnumerator MoveVertical(int dir)
+	void MoveVertical(int dir)
 	{
 		if (dir == 1)
 		{
 			transform.Translate (0, Time.deltaTime * moveSpeed, 0);
-			yield return new WaitForSeconds (5f);
+
 
 		} else
 		{
 			transform.Translate(0, Time.deltaTime * -moveSpeed, 0);
-			yield return new WaitForSeconds (5f);
 		}
 	}
 
-	IEnumerator MoveHorizontal(int dir)
+	void MoveHorizontal(int dir)
 	{
 		if (dir == 3)
 		{
 			transform.Translate (Time.deltaTime * moveSpeed, 0, 0);
-			yield return new WaitForSeconds (5f);
 		} else
 		{
 			transform.Translate (Time.deltaTime * -moveSpeed, 0, 0);
-			yield return new WaitForSeconds (5f);
 		}
 	}
 
-	IEnumerator Move(int dir)
+	void Move(int dir)
 	{
-			if (moveDirection <= 2)
-			{
+		
 
-			StartCoroutine(MoveVertical (moveDirection));
+		if (moveDirection <= 2)
+		{
 
+			MoveVertical (moveDirection);
 
-			} else
-			{
+		} else
+		{
 			
-			StartCoroutine(MoveHorizontal (moveDirection));
+			MoveHorizontal (moveDirection);
 
-			}
-		yield return new WaitForSeconds (3);
-			
+		}
+
+
 	}
+
+
 }
