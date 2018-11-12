@@ -1,30 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour {
 
+	public Transform player;
 	float moveSpeed;
 	public int moveDirection;
+	public bool follow;
+	private float maxRange = 5f;
 	int counter = 0;
 	// Use this for initialization
 	void Start () {
 		moveDirection = 1;
 		moveSpeed = 1f;
+		follow = false;
 		//StartCoroutine(Move(moveDirection));
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		counter++;
+		var heading = player.position - transform.position;
 
-		if (counter % 50 == 0)
+		if (heading.sqrMagnitude < maxRange * maxRange)
 		{
-			moveDirection = Random.Range (1, 5);
-
+			follow = true;
+		} else
+		{
+			follow = false;
 		}
-		Move (moveDirection);
-		//moveDirection = 1;
+		if (!follow)
+		{
+			if (counter % 50 == 0)
+			{
+				moveDirection = Random.Range (1, 5);
+
+			}
+			Move (moveDirection);
+			//moveDirection = 1;
+		} else
+		{
+			transform.position = Vector3.MoveTowards (transform.position, player.position, moveSpeed * Time.deltaTime);
+		}
 
 
 	}
@@ -70,6 +89,15 @@ public class Enemy : MonoBehaviour {
 		}
 
 
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.gameObject.tag == "Player")
+		{
+			Debug.Log ("You Lose");
+			SceneManager.LoadScene ("Lose");
+		}
 	}
 
 
