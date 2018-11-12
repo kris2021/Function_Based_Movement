@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour {
 			StartCoroutine(MoveHorizontal (moveDirection));
 
 			}
-		//yield return new WaitForSeconds (3);
+		yield return new WaitForSeconds (3);
 			
 	}
 }
